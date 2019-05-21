@@ -41,6 +41,12 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { LabManagerModule } from './lab-manager/lab-manager.module';
 
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { Services } from './shared/services/service.service';
+import { HttpModule } from '@angular/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -54,7 +60,11 @@ import { LabManagerModule } from './lab-manager/lab-manager.module';
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
-    LabManagerModule
+    LabManagerModule,
+    SweetAlert2Module.forRoot(),
+    HttpModule,
+    FormsModule, ReactiveFormsModule
+  
   ],
   declarations: [
     AppComponent,
@@ -64,9 +74,12 @@ import { LabManagerModule } from './lab-manager/lab-manager.module';
     LoginComponent,
     RegisterComponent
   ],
-  providers: [{
+  providers: [
+    Services,
+    {
     provide: LocationStrategy,
-    useClass: HashLocationStrategy
+    useClass: HashLocationStrategy,
+   
   }],
   bootstrap: [ AppComponent ]
 })

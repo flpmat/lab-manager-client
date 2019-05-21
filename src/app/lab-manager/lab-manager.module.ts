@@ -1,6 +1,6 @@
 // Angular
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { ClusterComponent } from './cluster/cluster.component';
 
@@ -18,7 +18,8 @@ import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
     LabManagerRoutingModule,
     NgxDatatableModule,
     BsDropdownModule,    
-    ProgressbarModule.forRoot()
+    ProgressbarModule.forRoot(),
+    ReactiveFormsModule
   ],
   declarations: [
    ClusterComponent,

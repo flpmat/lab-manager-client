@@ -4,5 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  LabManagerApi: "http://localhost:50252/api/",
+  LabManager: "http://localhost:50252/",
 };
