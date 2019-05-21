@@ -6,13 +6,19 @@ import { ClusterComponent } from './cluster/cluster.component';
 
 // Components Routing
 import { LabManagerRoutingModule } from './lab-manager-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    LabManagerRoutingModule
+    LabManagerRoutingModule,
+    NgxDatatableModule,
+    BsDropdownModule,    
+    ProgressbarModule.forRoot()
   ],
   declarations: [
    ClusterComponent,

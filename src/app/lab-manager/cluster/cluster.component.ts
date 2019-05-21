@@ -5,22 +5,22 @@ import { Component } from '@angular/core';
 })
 export class ClusterComponent {
 
-  constructor() { }
+  //for the spawning (animation)
+  dynamic: number;
+  type: string;
+  max: number = 200;
 
-  isCollapsed: boolean = false;
-  iconCollapse: string = 'icon-arrow-up';
 
-  collapsed(event: any): void {
-    // console.log(event);
-  }
+  // para atualizar tabela a cada segundo quanto 
+  // start(): void {
+  //   if(!this.active) return;
 
-  expanded(event: any): void {
-    // console.log(event);
-  }
+  //   setTimeout(this.updateRandom.bind(this), 50);
+  // }
+  constructor() {
+    this.dynamic = 0;
+    this.type = "Spawning";
+   }
 
-  toggleCollapse(): void {
-    this.isCollapsed = !this.isCollapsed;
-    this.iconCollapse = this.isCollapsed ? 'icon-arrow-down' : 'icon-arrow-up';
-  }
 
 }
