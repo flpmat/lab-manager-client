@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Services } from '../../shared/services/service.service';
-import { DropdownsHelper } from '../utils/dropdowns-helper';
+import { interval, Observable } from 'rxjs';
 
 @Component({
   templateUrl: 'cluster.component.html'
@@ -17,7 +17,10 @@ export class ClusterComponent {
   dynamic: number;
   type: string;
   max: number = 200;
+  ticks: any;
+  progressing: boolean = false;
 
+  consultaSubscription: any;
 
   // para atualizar tabela a cada segundo quanto 
   // start(): void {
@@ -50,6 +53,8 @@ export class ClusterComponent {
     this.loadImages();
     this.loadFlavors();
     this.consultar();
+
+
   }
 
   ngAfterViewInit() {
@@ -73,6 +78,7 @@ export class ClusterComponent {
 
   submit() {
     console.log("teste");
+    this.consultaSubscription.unsubscribe();
     if (this.form.value.idCluster == '' || this.form.value.idCluster == null) {
       this.salvarCluster();
     } else {
@@ -81,9 +87,12 @@ export class ClusterComponent {
   }
 
   salvarCluster() {
+
     this.Services.post('Cluster', this.form.value, null)
       .then(res => {
-        // this.consultar();
+        // this.consultaSubscription = interval(1000)
+        //   .subscribe((val) => { this.consultar; this.isProgress() });
+        this.consultar();
         // this.handleReset();
       }).catch(err => {
         alert(err);
@@ -114,11 +123,15 @@ export class ClusterComponent {
 
   consultar(): void {
     this.Services.get('Cluster/GetAllServers')
-    .then(res => {
-      this.servers = res;
-    }).catch(err => {
-      alert(err);
-    })
+      .then(res => {
+        console.log(res);
+        this.servers = res;
+        // this.consultaSubscription = interval(1000)
+        //   .subscribe((val) => { this.consultar(); });
+        this.isProgress()
+      }).catch(err => {
+        alert(err);
+      })
   }
   loadImages(): void {
     this.Services.get('Cluster/GetAllImages')
@@ -138,11 +151,55 @@ export class ClusterComponent {
       })
   }
 
+  rebootCluster(id: any): void {
+    console.log(id);
+    this.Services.get('Cluster/RecbootServer/' + id)
+      .then(res => {
+        this.consultar();
+      }).catch(err => {
+        alert(err);
+      })
+  }
+
+  stopCluster(id: any): void {
+    this.Services.get('Cluster/StopServer/' + id)
+      .then(res => {
+        this.consultar();
+      }).catch(err => {
+        alert(err);
+      })
+  }
+
+  startCluster(id: any): void {
+    console.log(id);
+    this.Services.get('Cluster/StartServer/' + id)
+      .then(res => {
+        this.consultar();
+      }).catch(err => {
+        alert(err);
+      })
+  }
 
   handleReset() {
     console.log("reset");
 
     this.form.reset();
     this.formInit();
+  }
+
+
+
+  isProgress() {
+    this.progressing = false;
+    for (const s of this.servers) {
+      if (s.task_state != null) {
+        this.progressing = true;
+        this.consultar();
+        break;
+      }
+    }
+    // if (progressing == false) {
+    //   this.consultaSubscription.unsubscribe();
+    // }
   }
 }

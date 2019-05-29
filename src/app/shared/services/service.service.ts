@@ -190,6 +190,10 @@ export class Services extends BrowserXhr {
       }
     } else {
       switch (res.status) {
+        case 202:
+          typeMessage = 'success'
+          str = 'Ação realizada com sucesso'
+          break;
         case 204:
           typeMessage = 'success'
           str = 'Exclusão realizada com sucesso'
